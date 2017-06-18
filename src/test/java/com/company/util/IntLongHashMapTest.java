@@ -1,34 +1,35 @@
 package com.company.util;
 
 import com.company.util.data.RandomDataGenerator;
-import org.junit.*;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by ekhomiak on 16.06.2017.
  */
 public class IntLongHashMapTest {
     private static final int RANDOM_INT_UPPER_BOUND = 1000; // To have the possibility to regulate "probability" of repetitive keys
-    private static final int TEST_QUANTITY = 1000;
+    private static final int TEST_QUANTITY = 10000;
 
     private static final String SIZE_METHOD_SIGNATURE = "size()";
     private static final String PUT_METHOD_PATTERN = "put(%d, %d)";
     private static final String GET_METHOD_PATTERN = "get(%d)";
     private static final String METHOD_FAILED_PATTERN = "The method %s.%s failed:";
+    private static final String TESTING_ENTRY_PATTERN = "The testing entry N %d is: key: %d, value: %d";
 
-    protected Map<Integer, Long> expectedValueSupplier = new HashMap<>();
-    protected IntLongHashMap intLongHashMap = new IntLongHashMap();
+    private Map<Integer, Long> expectedValueSupplier = new HashMap<>();
+    private IntLongHashMap intLongHashMap = new IntLongHashMap();
     private long noEntryValue = intLongHashMap.getNoEntryValue();
 
-    protected int getRandomInteger() {
+    private int getRandomInteger() {
         return RandomDataGenerator.getRandomInteger(RANDOM_INT_UPPER_BOUND);
     }
 
-    protected long getRandomLong() {
+    private long getRandomLong() {
         return RandomDataGenerator.getRandomLong();
     }
 
@@ -55,17 +56,27 @@ public class IntLongHashMapTest {
                 (expectedPreviousValue == null) ? noEntryValue : expectedPreviousValue, intLongHashMap.put(key, value));
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 5000)
     public void sizePutGetTest() throws Exception {
-        for (int i = 0; i < TEST_QUANTITY; i++) {
-            int key = getRandomInteger();
-            long value = getRandomLong();
+        int key;
+        long value;
+
+        for (int index = 0; index < TEST_QUANTITY; index++) {
+            key = getRandomInteger();
+            value = getRandomLong();
+
+            System.out.println(String.format(TESTING_ENTRY_PATTERN, index, key, value));
 
             sizeTest();
             getTest(key);
             putTest(key, value);
             sizeTest();
             getTest(key);
+        }
+
+        // Additional "only-get" test for "filled" HashMap
+        for (int i = 0; i < TEST_QUANTITY; i++) {
+            getTest(getRandomInteger());
         }
     }
 }
