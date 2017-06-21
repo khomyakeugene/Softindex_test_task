@@ -1,6 +1,7 @@
 package com.company.util;
 
 import com.company.util.data.RandomDataGenerator;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -9,8 +10,9 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by ekhomiak on 16.06.2017.
+ * Implemented by Yevhen Khomiak on 21.06.2017.
  */
+
 public class IntLongHashMapTest {
     private static final int RANDOM_INT_UPPER_BOUND = 10000; // To have the ability to regulate "probability" of repetitive keys
     private static final int TEST_QUANTITY = 100000;
@@ -25,13 +27,23 @@ public class IntLongHashMapTest {
     private static final String NO_ENTRY_VALUE_TEST_IS_OK = "No entry value test is ok!";
     private static final String THRESHOLD_KEYS_TEST_IS_OK = "Threshold keys test is ok!";
 
-    private Map<Integer, Long> expectedValueSupplier;
-    private IntLongHashMap intLongHashMap;
-    private long noEntryValue;
+    private static Map<Integer, Long> expectedValueSupplier;
+    private static IntLongHashMap intLongHashMap;
+    private static long noEntryValue;
 
     // To have the ability to use predetermined "etalon" keys
 //    private int[] predeterminedKeys = {350, -746, -147, -346, 92, -902, -274, -530, 127, -20, -122, -543, 85, -981, -409, -374, 32};
     private int[] preDeterminedKeys = {};
+
+//    @Rule
+//    public TestRule benchmarkRun = new BenchmarkRule();
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        expectedValueSupplier = new HashMap<>();
+        intLongHashMap = new IntLongHashMapOpenAddr();
+        noEntryValue = intLongHashMap.getNoEntryValue();
+    }
 
     private int getRandomInteger() {
         return RandomDataGenerator.getRandomInteger(RANDOM_INT_UPPER_BOUND);
@@ -73,10 +85,10 @@ public class IntLongHashMapTest {
     }
 
     private void emptyCardTest() throws Exception {
-        assertEquals(getIncorrectMethodResultMessage(SIZE_METHOD_SIGNATURE),0, intLongHashMap.size());
+        assertEquals(getIncorrectMethodResultMessage(SIZE_METHOD_SIGNATURE), 0, intLongHashMap.size());
 
         int key = getRandomInteger();
-        assertEquals(getIncorrectGetMethodResultMessage(key),noEntryValue, intLongHashMap.get(key));
+        assertEquals(getIncorrectGetMethodResultMessage(key), noEntryValue, intLongHashMap.get(key));
 
         System.out.println(EMPTY_CARD_TEST_IS_OK);
     }
@@ -87,7 +99,7 @@ public class IntLongHashMapTest {
 
         expectedValueSupplier.put(nullKey, value); // Important to synchronize expectedValueSupplier.size() and intLongHashMap.size()
         intLongHashMap.put(nullKey, value);
-        assertEquals(getIncorrectGetMethodResultMessage(nullKey),value, intLongHashMap.get(nullKey));
+        assertEquals(getIncorrectGetMethodResultMessage(nullKey), value, intLongHashMap.get(nullKey));
 
         System.out.println(NULL_KEY_TEST_IS_OK);
     }
@@ -97,13 +109,13 @@ public class IntLongHashMapTest {
         long value = getRandomLong();
         expectedValueSupplier.put(thresholdKey, value); // Important to synchronize expectedValueSupplier.size() and intLongHashMap.size()
         intLongHashMap.put(thresholdKey, value);
-        assertEquals(getIncorrectGetMethodResultMessage(thresholdKey),value, intLongHashMap.get(thresholdKey));
+        assertEquals(getIncorrectGetMethodResultMessage(thresholdKey), value, intLongHashMap.get(thresholdKey));
 
         thresholdKey = Integer.MAX_VALUE;
         value = getRandomLong();
         expectedValueSupplier.put(thresholdKey, value); // Important to synchronize expectedValueSupplier.size() and intLongHashMap.size()
         intLongHashMap.put(thresholdKey, value);
-        assertEquals(getIncorrectGetMethodResultMessage(thresholdKey),value, intLongHashMap.get(thresholdKey));
+        assertEquals(getIncorrectGetMethodResultMessage(thresholdKey), value, intLongHashMap.get(thresholdKey));
 
         System.out.println(THRESHOLD_KEYS_TEST_IS_OK);
     }
@@ -146,9 +158,6 @@ public class IntLongHashMapTest {
     @Test(timeout = 5000)
     public void sizePutGetTest() throws Exception {
         // All the tests - in one "main" test-method in order to simplify test order achievement
-        expectedValueSupplier = new HashMap<>();
-        intLongHashMap = new IntLongHashMapOpenAddr();
-        noEntryValue = intLongHashMap.getNoEntryValue();
 
         // Empty card test
         emptyCardTest();

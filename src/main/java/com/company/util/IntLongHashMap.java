@@ -3,6 +3,7 @@ package com.company.util;
 /**
  * Implemented by Yevhen Khomiak on 21.06.2017.
  */
+
 public interface IntLongHashMap {
     /**
      * Returns the value that will be returned from {@link #get(int)} or {@link #put(int, long)} if no entry exists for a given key.
