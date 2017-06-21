@@ -9,7 +9,7 @@ public class RandomDataGenerator {
     private static Random random = new Random();
 
     public static int getRandomInteger(int upperBound) {
-        return random.nextInt(upperBound);
+        return random.nextBoolean() ? random.nextInt(upperBound) * -1 : random.nextInt(upperBound);
     }
 
     public static long getRandomLong() {
