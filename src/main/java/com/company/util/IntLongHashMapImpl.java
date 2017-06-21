@@ -1,7 +1,7 @@
 package com.company.util;
 
 /**
- * Created by ekhomiak on 17.06.2017.
+ * Created by Yevhen Khomiak on 17.06.2017.
  */
 
 public class IntLongHashMapImpl implements IntLongHashMap {
@@ -139,6 +139,16 @@ public class IntLongHashMapImpl implements IntLongHashMap {
         return result;
     }
 
+    /**
+     * Returns the number of key-value mappings in map.
+     *
+     * @return the number of key-value mappings in map
+     */
+    @Override
+    public int size() {
+        return entryWithNullKeyIsAssociated ? size + 1 : size;
+    }
+
     @Override
     public long put(int key, long value) {
         // There is deliberately no control that <value> can be equal to <noEntryValue>. The "side-effect" of such
@@ -188,10 +198,5 @@ public class IntLongHashMapImpl implements IntLongHashMap {
         }
 
         return result;
-    }
-
-    @Override
-    public int size() {
-        return entryWithNullKeyIsAssociated ? size + 1 : size;
     }
 }
