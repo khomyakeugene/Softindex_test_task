@@ -147,7 +147,7 @@ public class IntLongHashMapTest {
     public void sizePutGetTest() throws Exception {
         // All the tests - in one "main" test-method in order to simplify test order achievement
         expectedValueSupplier = new HashMap<>();
-        intLongHashMap = new IntLongHashMapImpl();
+        intLongHashMap = new IntLongHashMapOpenAddr();
         noEntryValue = intLongHashMap.getNoEntryValue();
 
         // Empty card test

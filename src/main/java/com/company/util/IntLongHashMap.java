@@ -1,12 +1,11 @@
 package com.company.util;
 
 /**
- * Created by Yevhen Khomiak on 21.06.2017.
+ * Implemented by Yevhen Khomiak on 21.06.2017.
  */
 public interface IntLongHashMap {
     /**
      * Returns the value that will be returned from {@link #get(int)} or {@link #put(int, long)} if no entry exists for a given key.
-     * The default value is generally <i><b>Long.MIN_VALUE</b></i>, but can be changed during construction of the map.
      *
      * @return the value that represents a null value in this map
      */
