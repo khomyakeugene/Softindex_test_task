@@ -29,11 +29,8 @@ public class IntLongHashMap {
     private long nullValue = noEntryValue;
 
     public IntLongHashMap(int initialCapacity, float loadFactor, float multiplier, long noEntryValue) {
-        if (initialCapacity < 0) {
+        if (initialCapacity < 0 || initialCapacity > MAXIMUM_CAPACITY) {
             throw new IllegalArgumentException(String.format(ILLEGAL_INITIAL_CAPACITY_PATTERN, initialCapacity));
-        }
-        if (initialCapacity > MAXIMUM_CAPACITY) {
-            initialCapacity = MAXIMUM_CAPACITY;
         }
 
         if (Float.isNaN(loadFactor) || loadFactor <= 0 || loadFactor > 1.0) {
